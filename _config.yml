@@ -1,0 +1,12 @@
+# General Jekyll Config
+url: wencheih.github.io/catchcore
+
+exclude: [LICENCE, README.md, .gitignore]
+
+# Buld settings
+permalink: pretty
+theme: jekyll-theme-cayman
+markdown: redcarpet
+show_downloads: true
+redcarpet:
+  extensions: ["fenced_code_blocks", "autolink", "tables", "with_toc_data"]
