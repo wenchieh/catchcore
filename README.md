@@ -1,9 +1,11 @@
 CatchCore: Catching Hierarchical Dense Subtensor
+========
+
 [![Build Status](https://travis-ci.org/wenchieh/catchcore.svg?branch=master)](https://travis-ci.org/wenchieh/catchcore) [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) ![GitHub](https://img.shields.io/github/license/wenchieh/catchcore.svg)
 
 
 **CatchCore** is a novel framework to detect hierarchical dense cores in multi-aspect data (i.e. tensors).
-CatchCore has following properties:
+CatchCore has the following properties:
 
 - unified metric: provides a gradient-based optimized framework as well as theoretical guarantees
 - accurate: provides high accuracy in both synthetic and real data
