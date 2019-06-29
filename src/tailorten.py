@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 # -*- coding=utf-8 -*-
 
 #  Project: catchcore
@@ -56,7 +56,8 @@ class TailorTen(object):
                 term.append(self._dimsmap_[d][subs[k, d]])
             nwsubs.append(np.asarray(term))
 
-        tensor = sptensor(tuple(np.asarray(nwsubs).T), np.asarray(vals), shape, dtype, accumfun=accumfun)
+        tensor = sptensor(tuple(np.asarray(nwsubs).T), np.asarray(vals),
+                          shape, dtype, accumfun=accumfun)
         self.data = dict(zip(map(tuple, np.asarray(tensor.subs).T), tensor.vals))
         self.shape = tensor.shape
         self.ndim = tensor.ndim
@@ -85,7 +86,7 @@ class TailorTen(object):
 
     def _getinvdimsmap_(self):
         if self._invdimsmap_ is None:
-            self._invdimsmap_ = [dict(zip(self._dimsmap_[dm].values(),self._dimsmap_[dm].keys()))
+            self._invdimsmap_ = [dict(zip(self._dimsmap_[dm].values(), self._dimsmap_[dm].keys()))
                                  for dm in range(self.ndim)]
 
     def get_entities(self, subs=None, update=False):

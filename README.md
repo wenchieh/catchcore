@@ -1,5 +1,5 @@
 CatchCore: Catching Hierarchical Dense SubTensor
-[![Build Status](https://travis-ci.org/wenchieh/catchcore.svg?branch=master)](https://travis-ci.org/wenchieh/catchcore) [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) ![GitHub](https://img.shields.io/github/license/wenchieh/catchcore.svg)
+[![Build Status](https://travis-ci.org/wenchieh/catchcore.svg?branch=master)](https://travis-ci.org/wenchieh/catchcore) [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) ![GitHub](https://img.shields.io/github/license/wenchieh/catchcore.svg)
 
 ========================
 **CatchCore** is a novel framework to detect hierarchical dense cores in multi-aspect data (i.e. tensors).
@@ -28,8 +28,6 @@ The download links for the datasets used in the paper are available online.
 
 Environment
 =======================
-Python 3.6 is supported in current version.
-
 To install required libraries, please type
 ```bash
 pip install -r requirements

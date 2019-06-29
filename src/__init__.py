@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 # -*- coding=utf-8 -*-
 
 #  SRC: the source code part of the CatchCore

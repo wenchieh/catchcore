@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python
 # -*- coding=utf-8 -*-
 
 #  Project: catchcore
@@ -23,7 +23,7 @@ import collections as clct
 # third-part lib
 import numpy as np
 
-##  some constant variable settings
+# some constant variable settings
 MAXVAL = 1.0
 cF = 8  # 32 # bit
 ZERO = 1.e-10
@@ -31,12 +31,14 @@ INF = 1.e+10
 
 
 def log_2(x):
-    if x == 0: return 0
+    if x == 0:
+        return 0
     return np.log2(x)
 
 
 def log_s(x):
-    if x == 0: return 0
+    if x == 0:
+        return 0
     return 2 * log_2(x) + 1.0
 
 

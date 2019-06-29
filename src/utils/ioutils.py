@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python
 # -*- coding=utf-8 -*-
 
 #  Project: catchcore
@@ -161,7 +161,8 @@ def load_tensor(infn, valcol=-1, valtype=int, labelcol=-1, labeltype=str, sep=',
     idxs, vals, labels = list(), list(), list()
     with open(infn, 'r') as fp:
         for line in fp:
-            if line.startswith(comment): continue
+            if line.startswith(comment):
+                continue
             toks = line.strip().split(sep)
             if valcol > 0:
                 vals.append(valtype(toks[valcol]))
