@@ -1,5 +1,5 @@
 # General Jekyll Config
-url: wencheih.github.io/catchcore
+url: wenchieh.github.io/catchcore
 
 exclude: [LICENCE, README.md, .gitignore]
 
