@@ -22,8 +22,8 @@ __author__ = 'wenchieh'
 import numpy as np
 
 # project
-from utils.ioutils import load_tensor
-from tailorten import TailorTen
+from .utils.ioutils import load_tensor
+from .tailorten import TailorTen
 
 
 def gen_evendense_blocks(p, size, base=None):

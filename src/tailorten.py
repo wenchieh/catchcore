@@ -61,7 +61,7 @@ class TailorTen(object):
         self.data = dict(zip(map(tuple, np.asarray(tensor.subs).T), tensor.vals))
         self.shape = tensor.shape
         self.ndim = tensor.ndim
-        self.nnz = tensor.nnz()
+        self.nnz = len(tensor.vals)
         self.vals = np.sum(self.data.values())
 
     def update(self, subs, vals):
@@ -112,7 +112,7 @@ class TailorTen(object):
         self.get_entities(sub, True)
 
     def tosptensor(self):
-        return sptensor(tuple(np.asarray(self.data.keys()).T), np.asarray(self.data.values()), self.shape)
+        return sptensor(tuple(np.asarray(list(self.data.keys())).T), np.asarray(list(self.data.values())), self.shape)
 
     def nnz_validsubs(self, candidates=None):
         if candidates is None:

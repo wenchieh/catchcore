@@ -30,7 +30,7 @@ from collections import Counter
 from scipy.stats import poisson
 
 # project
-from utils.basic import *
+from .utils.basic import *
 
 
 class ProbModel(Enum):

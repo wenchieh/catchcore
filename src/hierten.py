@@ -129,7 +129,7 @@ class HierTen(object):
         xs_nh = xs[:dim] + xs[dim + 1:]
         scale = np.prod([np.sum(x) * 1.0 for x in xs_nh])
         grad_xdim = np.array([0.0] * self.shape[dim])
-        ttvxs = self.T.ttv(tuple(xs_nh), modes=range(dim) + range(dim + 1, self.ndim))
+        ttvxs = self.T.ttv(tuple(xs_nh), modes=list(range(dim)) + list(range(dim + 1, self.ndim)))
         grad_xdim += -1.0 * (1 + self.ps[h] + (h > 0) * self.beta) * np.squeeze(ttvxs.toarray())
         grad_xdim += 1.0 * (self.ps[h] + (h > 0) * Ch * self.beta) * \
             scale * np.ones((self.shape[dim]))
