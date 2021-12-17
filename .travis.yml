@@ -7,4 +7,3 @@ install:
   - pip install coveralls
 # command to run tests
 script: make
-
