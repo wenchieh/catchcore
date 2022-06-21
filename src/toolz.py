@@ -56,6 +56,6 @@ def initialize_tailortens(infn, valcol, labelcol, valtype=int, labeltype=int,
     subs, vals, labels = load_tensor(infn, valcol, valtype, labelcol, labeltype, sep, comments)
     if usecols is not None:
         subs = subs[:, np.asarray(usecols)]
-    tten = TailorTen(subs, vals, accumfun=sum.__call__)
+    tten = TailorTen(subs, vals, accum_fun=sum.__call__)
 
     return tten, labels

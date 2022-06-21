@@ -38,16 +38,16 @@ from src.utils.ioutils import save_hierten_indicators
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="[CatchCore]: Catching Hierarchical Dense Sub-Tensor.",
                                      usage="python run_catchcore.py ins outs dim valcol hs p cons etas eps sep")
-    parser.add_argument("--ins",  help="input tensor path", type=str, default="./example.tensor")
-    parser.add_argument("--outs", help="result output path", type=str, default="./output/")
-    parser.add_argument("--dim",  help="the number of feature dimensions", type=int, default=3)
-    parser.add_argument("--valcol", help="the column of 'measurement' in the input tensor", type=int, default=-1)
-    parser.add_argument("--hs",   help="the expected number of hierarchies", type=int, default=2)
-    parser.add_argument("--p",    help="the penalty for missing entities", type=float, default=3e-4)
-    parser.add_argument("--cons", help="the lagrange parameter for constraints of optimization func.", type=float, default=20)
-    parser.add_argument("--etas", help="the density ratio for two adjacent hierarchies", type=float, default=10)
-    parser.add_argument("--eps",  help="the convergence parameter", type=float, default=1e-6)
-    parser.add_argument("--sep",  help="separator of input tensor", type=str, default=',')
+    parser.add_argument("ins",  help="input tensor path", type=str)
+    parser.add_argument("outs", help="result output path", type=str)
+    parser.add_argument("dim",  help="the number of feature dimensions", type=int)
+    parser.add_argument("valcol", help="the column of 'measurement' in the input tensor", type=int, default=-1)
+    parser.add_argument("hs",   help="the expected number of hierarchies", type=int, default=2)
+    parser.add_argument("p",    help="the penalty for missing entities", type=float, default=1e-3)
+    parser.add_argument("cons", help="the Lagrange parameter for constraints of optimization func.", type=float, default=5)
+    parser.add_argument("etas", help="the density ratio for two adjacent hierarchies", type=float, default=5)
+    parser.add_argument("eps",  help="the convergence parameter", type=float, default=1e-6)
+    parser.add_argument("sep",  help="separator of input tensor", type=str, default=',')
     args = parser.parse_args()
 
     ins, sep, outs = args.ins, args.sep, args.outs
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     algtm = time.time()
     print("total construct @{}s\n".format(algtm - starts))
 
-    xhs = hrten.hieroptimal(maxiter=100, eps=eps, convtol=1e-6)
+    xhs = hrten.hieroptimal(max_iters=100, eps=eps, convtol=1e-6)
     runtm = time.time() - algtm
     print("\n Algorithm run @{}s \n".format(runtm))
     vhs, hidx, hnnzs, hshapes, hdens = hrten.hierarchy_indicator(xhs)
@@ -77,7 +77,9 @@ if __name__ == '__main__':
     print("Hierarchies density: ", hdens)
 
     if len(hidx) > 0:
-        hridx = tten.selectormap(hidx)
-        save_hierten_indicators(outs + outfn, hridx)
+        hr_idx = list()
+        for h in range(len(hidx)):
+            hr_idx.append(tten.selectormap(hidx[h], range(dims)))
+        save_hierten_indicators(outs + outfn, hr_idx)
 
     print("done! " + ' @%.2f' % (runtm))

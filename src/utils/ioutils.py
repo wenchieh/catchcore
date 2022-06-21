@@ -107,22 +107,22 @@ def load_simple_list(infn, dtype=None):
     return sim_list
 
 
-def save_hierten_indicators(outfn, hierindicator, sep_hdm2ids=":", sep_inds=","):
-    nhs = len(hierindicator)
-    ndim = len(hierindicator[0])
+def save_hierten_indicators(outfn, hier_indicator, sep_hdm2ids=":", sep_inds=","):
+    nhs = len(hier_indicator)
+    ndim = len(hier_indicator[0])
 
     with open(outfn, 'w') as fp:
         fp.writelines("% {},{}\n".format(nhs, ndim))
         shape_str = ''
         for h in range(nhs):
-            hsp = 'x'.join(map(str, [len(hierindicator[h][dm]) for dm in range(ndim)]))
+            hsp = 'x'.join(map(str, [len(hier_indicator[h][dm]) for dm in range(ndim)]))
             shape_str += hsp + '\t'
         fp.writelines('% {}\n'.format(shape_str))
 
         for h in range(nhs):
             for dm in range(ndim):
-                indstr = sep_inds.join(map(str, hierindicator[h][dm]))
-                outs = "{}_{}{}{}".format(h, dm, sep_hdm2ids, indstr)
+                ind_str = sep_inds.join(map(str, hier_indicator[h][dm]))
+                outs = "{}_{}{}{}".format(h, dm, sep_hdm2ids, ind_str)
                 fp.writelines(outs + '\n')
         fp.close()
 
@@ -139,12 +139,12 @@ def load_hierten_indicators(infn, sep_hdm2ids=":", sep_inds=","):
                 line = fp.readline().strip()
                 toks = line.split(sep_hdm2ids)
                 _, dm = map(int, toks[0].strip().split('_'))
-                inds = map(int, toks[1].strip().split(sep_inds))
+                inds = list(map(int, toks[1].strip().split(sep_inds)))
                 hids[dm] = inds
-            sorthids = list()
-            for dm in sorted(hids.keys()):
-                sorthids.append(np.asarray(hids[dm]))
-            res.append(sorthids)
+            sort_hids = list()
+            for dm in sorted(list(hids.keys())):
+                sort_hids.append(np.array(hids[dm]))
+            res.append(sort_hids)
         fp.close()
 
     return nhs, ndim, res
@@ -157,29 +157,46 @@ def load_mat(infn, var_name='data'):
     return subs, vals
 
 
-def load_tensor(infn, valcol=-1, valtype=int, labelcol=-1, labeltype=str, sep=',', comment='%'):
+def load_tensor(infn, val_col=-1, val_type=int, label_col=-1, label_type=str, sep=',', comment='%'):
     idxs, vals, labels = list(), list(), list()
     with open(infn, 'r') as fp:
         for line in fp:
             if line.startswith(comment):
                 continue
             toks = line.strip().split(sep)
-            if valcol > 0:
-                vals.append(valtype(toks[valcol]))
+            if val_col > 0:
+                vals.append(val_type(toks[val_col]))
             else:
-                vals.append(valtype(1))
+                vals.append(val_type(1))
 
-            if labelcol > 0:
-                labels.append(labeltype(toks[labelcol]))
+            if label_col > 0:
+                labels.append(label_type(toks[label_col]))
 
-            ptidx = list()
+            pt_idx = list()
             for k in range(len(toks)):
-                if k != valcol and k != labelcol:
-                    ptidx.append(int(toks[k]))
-            idxs.append(np.asarray(ptidx))
+                if k != val_col and k != label_col:
+                    pt_idx.append(int(toks[k]))
+            idxs.append(np.array(pt_idx))
 
         fp.close()
-    # subs = np.asarray(idxs) #list(np.asarray(idxs).transpose())
+    # subs = np.array(idxs) #list(np.array(idxs).transpose())
+    return np.array(idxs), vals, labels
 
-    # return subs, vals, labels
-    return np.asarray(idxs), vals, labels
+
+def load_cpd_result(infn, top_r):
+    dat = io.loadmat(infn, squeeze_me = True)
+    us = np.squeeze(dat['rkP']['u']).item()
+
+    hxs_init = list()
+    n_dim = len(us)
+    for r in range(top_r):
+        hxs = list()
+        for dm in range(n_dim):
+            xdm = us[dm][:,r]
+            if xdm.sum() < 0:
+                xdm *= -1
+            xdm[xdm <= 0] = 1e-5
+            hxs.append(xdm)
+        hxs_init.append(hxs)
+
+    return hxs_init

@@ -21,10 +21,10 @@ Datasets
 The download links for the datasets used in the paper are available online.
   - [Android App rating](http://jmcauley.ucsd.edu/data/amazon/).  1.32M × 61.3K × 1.28K × 5
   - [BeerAdvocate rating](http://snap.stanford.edu/data/web-BeerAdvocate.html).  26.5K × 50.8K × 1472 × 1
-  - [StackOverflow favorite](http://konect.uni-koblenz.de/networks/stackexchange-stackoverflow).  545K × 96.7K × 1.15K × 1
+  - [StackOverflow favorite](http://konect.cc/networks/stackexchange-stackoverflow/).  545K × 96.7K × 1.15K × 1
   - [DBLP Co-author](https://networkrepository.com/dblp_coauthor.php).   1.31M × 1.31M × 72
-  - [Youtube Favorite](http://konect.uni-koblenz.de/networks/youtube-u-growth).   3.22M × 3.22M × 203
-  - [DARPA TCP Dumps](https://www.ll.mit.edu/ideval/data/).   9.48K × 23.4K × 46.6K
+  - [Youtube Favorite](http://konect.cc/networks/youtube-u-growth/).   3.22M × 3.22M × 203
+  - [DARPA TCP Dumps](https://www.ll.mit.edu/r-d/datasets/1999-darpa-intrusion-detection-evaluation-dataset).   9.48K × 23.4K × 46.6K
   - [AirForce TCP Dumps](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html).  3 × 70 × 11 × 7.20K × 21.5K × 512 × 512
 
 

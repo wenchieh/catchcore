@@ -98,8 +98,8 @@ class MDLModel(object):
 
     def __init__(self, ten_sub2val, hrivsc=None):
         self.ten_sub2val = ten_sub2val
-        ten_ndim = len(self.ten_sub2val.keys()[0])
-        pos_arr = np.asarray(ten_sub2val.keys())
+        ten_ndim = len(list(self.ten_sub2val.keys())[0])
+        pos_arr = np.asarray(list(ten_sub2val.keys()))
         ten_shape = [len(np.unique(pos_arr[:, d])) for d in range(ten_ndim)]
 
         if hrivsc is None or len(hrivsc) <= 0:
@@ -188,13 +188,13 @@ class MDLModel(object):
         acc_pos2val = dict()
         for h in range(self.nhs - 1, -1, -1):
             pos2val = self._block_entity_(self.hr_idvs_col[h], exc_posval)
-            # mass = sum(pos2val.values())
+            # mass = sum(list(pos2val.values()))
             block_vol = np.product(self.hr_shape[h])
             rem_vol = block_vol
             if exc_posval is not None:  # with exclude entities
                 rem_vol -= np.prod(exc_shape)
             # density = mass * 1.0 / rem_vol
-            codes += self.block_density_prob(pos2val.values(), rem_vol)
+            codes += self.block_density_prob(list(pos2val.values()), rem_vol)
             # update exclude blocks
             exc_shape = block_vol.copy()
             exc_posval = pos2val.copy()
@@ -213,7 +213,7 @@ class MDLModel(object):
             remains = self.ten_sub2val
 
         rem_vol = np.prod(np.asarray(self.ten_shape, float)) - maxblock_vol
-        val2cnt = Counter(remains.values())
+        val2cnt = Counter(list(remains.values()))
         val2cnt[0] = rem_vol - len(remains)
 
         # entropy encode

@@ -37,47 +37,49 @@ class TailorTen(object):
     _dimsmap_ = None
     _invdimsmap_ = None
 
-    def __init__(self, subs, vals, shape=None, dtype=int, accumfun=sum.__call__):
+    def __init__(self, subs, vals, shape=None, dtype=int, accum_fun=sum.__call__):
         if len(vals) <= 0:
             ValueError("the input tensor is ZERO!")
 
-        subs = np.asarray(subs)
+        subs = np.array(subs)
         ns, ndims = subs.shape
         self._dimsmin_ = np.min(subs, 0)
         self._dimsmap_ = list()
         for d in range(ndims):
-            undim = np.unique(subs[:, d])
-            self._dimsmap_.append(dict(zip(undim, range(len(undim)))))
+            un_dim = np.unique(subs[:, d])
+            self._dimsmap_.append(dict(zip(un_dim, range(len(un_dim)))))
 
-        nwsubs = list()
+        new_subs = list()
         for k in range(ns):
             term = list()
             for d in range(ndims):
                 term.append(self._dimsmap_[d][subs[k, d]])
-            nwsubs.append(np.asarray(term))
+            new_subs.append(np.array(term))
 
-        tensor = sptensor(tuple(np.asarray(nwsubs).T), np.asarray(vals),
-                          shape, dtype, accumfun=accumfun)
-        self.data = dict(zip(map(tuple, np.asarray(tensor.subs).T), tensor.vals))
+        tensor = sptensor(tuple(np.array(new_subs).T), np.array(vals),
+                          shape, dtype, accumfun=accum_fun)
+        self.data = dict(zip(map(tuple, np.array(tensor.subs).T), tensor.vals))
         self.shape = tensor.shape
         self.ndim = tensor.ndim
         self.nnz = len(tensor.vals)
         self.vals = np.sum(self.data.values())
 
+        print("totals:{}, max:{}".format(np.sum(tensor.vals), np.max(tensor.vals)))
+
     def update(self, subs, vals):
-        subs = np.asarray(subs)
+        subs = np.array(subs)
         ns, ndim = subs.shape
         if ndim != self.ndim:
             ValueError('input update data is invalid, the dimension is not match')
 
-        # nwsubs = list()
+        # new_subs = list()
         # for k in range(ns):
         # 	term = list()
         # 	for d in range(ndim):
         # 		term.append(self._dimsmap_[d][subs[k, d]])
-        # 	nwsubs.append(tuple(term))
+        # 	new_subs.append(tuple(term))
 
-        # self.data.update(dict(zip(nwsubs, vals)))
+        # self.data.update(dict(zip(new_subs, vals)))
         self.data.update(dict(zip(map(tuple, subs.T), vals)))
         print("update: nnzs ({} --> {}), vals ({} --> {})".format(self.nnz, len(self.data),
                                                                   self.vals, np.sum(self.data.values())))
@@ -104,15 +106,14 @@ class TailorTen(object):
             self.nnz = len(self.data)
             self.vals = np.sum(self.data.values())
 
-        res = np.asarray(res)
-        # res[:, :-1] += self._dimsmin_
+        res = np.array(res)
         return res
 
     def shave(self, sub=None):
         self.get_entities(sub, True)
 
     def tosptensor(self):
-        return sptensor(tuple(np.asarray(list(self.data.keys())).T), np.asarray(list(self.data.values())), self.shape)
+        return sptensor(tuple(np.array(list(self.data.keys())).T), np.array(list(self.data.values())), self.shape)
 
     def nnz_validsubs(self, candidates=None):
         if candidates is None:
@@ -121,34 +122,49 @@ class TailorTen(object):
 
     def dimension_select(self, selector):
         assert (len(selector) == self.ndim)
-        res_dat = np.vstack([np.asarray(self.data.keys()).T, np.asarray(self.data.values()).T]).T
+        res_dat = np.vstack([np.array(self.data.keys()).T, np.array(self.data.values()).T]).T
         for dm in range(self.ndim):
             res_dat = res_dat[np.isin(res_dat[:, dm], selector[dm])]
         # return map(tuple, res_dat[:, :-1]), res_dat[:, -1]
         return res_dat
 
-    def selectormap(self, selector, direct=1):
+    def selectormap(self, selectors, dims, direct=1):
+        '''
+        select specific entities identified by selector
+        :param selector: selection subscripts
+        :param direct:  program index: starting from 0 for all dimensions
+                1: program index --> real index;
+                2: real index --> program index;
+        :return:
+        '''
         res = list()
-        self._getinvdimsmap_()
-        for h in range(len(selector)):
-            hidx = list()
-            for dm in range(self.ndim):
-                hidx.append([self._invdimsmap_[dm][s] for s in selector[h][dm]])
-            res.append(tuple(hidx))
+        if direct == 1:
+            self._getinvdimsmap_()
+        for dmidx in range(len(dims)):
+            if direct == 1:
+                idx = [self._invdimsmap_[dims[dmidx]][h] for h in set(selectors[dmidx])]
+                res.append(idx)
+                # res.append(sorted(idx))
+            if direct == 2:
+                idx = [self._dimsmap_[dims[dmidx]][h] for h in set(selectors[dmidx])]
+                res.append(idx)
         return res
 
     def info(self):
-        print("dimension: {}, shape:{}, #nnz:{}".format(self.ndim, self.shape, self.nnz))
-        print("initial density: {}".format(1.0 * self.nnz / np.prod(np.asarray(self.shape, float))))
+        print("dimension: {}, shape:{}, #nnz:{}, ".format(self.ndim, self.shape, self.nnz))
+        # print("totals:{}, max:{}".format(np.sum(self.T.vals),  np.max(self.T.vals)))
+        print("initial density: {}".format(1.0 * self.nnz / np.prod(np.array(self.shape, float))))
+        # print("  n_dims: {}, shape: {}, nnzs: {}, totals: {}".format(self.n_dim, self.shape,
+        #                                                              len(self.T.vals), np.sum(self.T.vals)))
 
-    def serialize(self, outs, header=None, valtype=int, delim=',', comment='%'):
+    def serialize(self, outs, header=None, val_type=int, delim=',', comment='%'):
         self._getinvdimsmap_()
         with open(outs, 'w') as ofp:
             if header is not None:
                 ofp.writelines(comment + header + '\n')
             for pos, v in self.data.items():
                 term = [self._invdimsmap_[dm][pos[dm]] for dm in range(self.ndim)]
-                ofp.writelines(delim.join(map(str, term + [valtype(v)])) + '\n')
+                ofp.writelines(delim.join(map(str, term + [val_type(v)])) + '\n')
             ofp.flush()
             ofp.close()
 
