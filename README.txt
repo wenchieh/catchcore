@@ -4,12 +4,12 @@
 
 **Authors:** Wenjie Feng
 
-**Version:** 1.0
+**Version:** 2.0
 
-**Date:** April 1, 2019
+**Date:** June 1, 2022
 
 **Main Contact:** Wenjie Feng
-  ( fengwenjie@ict.ac.cn / wenchiehfen.us@gmail.com )
+  (wenchiehfeng.us@gmail.com )
 
 This software is free of charge under research purposes.
 For commercial purposes, please contact the author.
