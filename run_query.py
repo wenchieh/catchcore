@@ -7,14 +7,14 @@
 #
 #  Project: catchcore
 #      run_query.py
-#      Version:  1.0
-#      Date: Dec. 10, 2019
+#      Version:  2.0
+#      Date: Dec. 10, 2020
 #
 #      Copyright:
 #        This software is free of charge under research purposes.
 #        For commercial purposes, please contact the author.
 #
-#      Created by @wenchieh  on <12/10/2019>
+#      Created by @wenchieh  on <12/10/2020>
 #
 # -------------------------------------------------------------------------------
 # CatchCore Algorithm interface
