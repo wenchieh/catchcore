@@ -57,7 +57,7 @@ If you use this code as part of any published research, please acknowledge the f
 ```
 @inproceedings{feng2019catchcore,
   title={CatchCore: Catching Hierarchical Dense Subtensor},
-  author={Wenjie Feng, Shenghua Liu, Huawei Shen, and Xueqi Cheng},
+  author={Wenjie Feng, Shenghua Liu, and Xueqi Cheng},
   booktitle={European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases (ECML-PKDD)},
   year={2019},
 }
