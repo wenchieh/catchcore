@@ -1,4 +1,4 @@
-CatchCore: Catching Hierarchical Dense Subtensor
+Hierarchical Dense Subtensor Detection in Tensors
 ========
 
 [![Build Status](https://travis-ci.com/wenchieh/catchcore.svg?branch=master)](https://travis-ci.com/wenchieh/catchcore) [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) ![GitHub](https://img.shields.io/github/license/wenchieh/catchcore.svg)
@@ -55,10 +55,22 @@ Reference
 ========================
 If you use this code as part of any published research, please acknowledge the following papers.
 ```
+@article{feng2023hierarchical,
+  title={Hierarchical Dense Pattern Detection in Tensors},
+  author={Feng, Wenjie and Liu, Shenghua and Cheng, Xueqi},
+  journal={ACM Transactions on Knowledge Discovery from Data},
+  volume={17},
+  number={6},
+  pages={1--29},
+  year={2023},
+  publisher={ACM New York, NY}
+}
+
 @inproceedings{feng2019catchcore,
   title={CatchCore: Catching Hierarchical Dense Subtensor},
   author={Wenjie Feng, Shenghua Liu, and Xueqi Cheng},
   booktitle={European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases (ECML-PKDD)},
   year={2019},
 }
+
 ```
